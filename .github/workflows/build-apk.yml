@@ -50,6 +50,21 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Align Java and Kotlin JVM targets
+        working-directory: extracted/GbaPocket
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("app/build.gradle.kts")
+          s = p.read_text()
+          s = s.replace(
+              "kotlinOptions {",
+              "compileOptions {\n        sourceCompatibility = JavaVersion.VERSION_17\n        targetCompatibility = JavaVersion.VERSION_17\n    }\n    kotlinOptions {",
+              1
+          )
+          p.write_text(s)
+          PY
+  
       - name: Build debug APK
         working-directory: extracted/GbaPocket
         run: gradle --no-daemon :app:assembleDebug --stacktrace
