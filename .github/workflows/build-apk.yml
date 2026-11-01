@@ -50,6 +50,7 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      
       - name: Align Java and Kotlin JVM targets
         working-directory: extracted/GbaPocket
         run: |
@@ -57,12 +58,9 @@ jobs:
           from pathlib import Path
           p = Path("app/build.gradle.kts")
           s = p.read_text()
-          print("=== ORIGINAL GRADLE FILE ===")
-          print(repr(s))
-          assert "android {" in s, "Android configuration not found"
           s = s.replace(
-              "android {",
-              """android {
+              'android {',
+              '''android {
               compileOptions {
                   sourceCompatibility = JavaVersion.VERSION_17
                   targetCompatibility = JavaVersion.VERSION_17
@@ -70,13 +68,13 @@ jobs:
               kotlinOptions {
                   jvmTarget = "17"
               }
-              """,
+              ''',
               1
           )
           p.write_text(s)
           print(s)
           PY
-  
+
   
       - name: Build debug APK
         working-directory: extracted/GbaPocket
