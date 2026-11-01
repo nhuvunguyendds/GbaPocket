@@ -58,7 +58,7 @@ jobs:
           p = Path("app/build.gradle.kts")
           s = p.read_text()
           print("=== ORIGINAL GRADLE FILE ===")
-           print(repr(s))
+          print(repr(s))
           assert "android {" in s, "Android configuration not found"
           s = s.replace(
               "android {",
