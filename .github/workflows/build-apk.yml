@@ -57,6 +57,8 @@ jobs:
           from pathlib import Path
           p = Path("app/build.gradle.kts")
           s = p.read_text()
+          import re
+          s = re.sub(r'\\n', '\n', s)
           assert "android {" in s, "Android configuration not found"
           s = s.replace(
               "android {",
